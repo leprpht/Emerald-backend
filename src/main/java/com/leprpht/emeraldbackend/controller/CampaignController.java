@@ -2,6 +2,7 @@ package com.leprpht.emeraldbackend.controller;
 
 import com.leprpht.emeraldbackend.model.Campaign;
 import com.leprpht.emeraldbackend.service.CampaignService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,13 +35,13 @@ public class CampaignController {
     }
 
     @PostMapping("/campaigns")
-    public ResponseEntity<Campaign> createCampaign(@RequestBody Campaign campaign) {
+    public ResponseEntity<Campaign> createCampaign(@RequestBody @Valid Campaign campaign) {
         Campaign savedCampaign = campaignService.saveCampaign(campaign);
         return ResponseEntity.ok(savedCampaign);
     }
 
     @PutMapping("/campaigns")
-    public ResponseEntity<Campaign> updateCampaign(@RequestBody Campaign campaign) {
+    public ResponseEntity<Campaign> updateCampaign(@RequestBody @Valid Campaign campaign) {
         try{
             Campaign updatedCampaign = campaignService.updateCampaign(campaign);
             return ResponseEntity.ok(updatedCampaign);
