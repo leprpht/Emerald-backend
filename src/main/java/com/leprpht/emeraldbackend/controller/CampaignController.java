@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/api")
@@ -19,35 +20,29 @@ public class CampaignController {
     }
 
     @GetMapping("/campaigns")
-    public ResponseEntity<List<Campaign>> getAllCampaigns() {
-        List<Campaign> campaigns = campaignService.getAllCampaigns();
-        return ResponseEntity.ok(campaigns);
+    public CompletableFuture<ResponseEntity<List<Campaign>>> getAllCampaigns() {
+        return campaignService.getAllCampaigns()
+                .thenApply(ResponseEntity::ok);
     }
 
     @GetMapping("/campaigns/{id}")
-    public ResponseEntity<Campaign> getCampaignById(@PathVariable Long id) {
-        try{
-            Campaign campaign = campaignService.getCampaignById(id);
-            return ResponseEntity.ok(campaign);
-        } catch (RuntimeException e){
-            return ResponseEntity.notFound().build();
-        }
+    public CompletableFuture<ResponseEntity<Campaign>> getCampaignById(@PathVariable Long id) {
+        return campaignService.getCampaignById(id)
+                .thenApply(ResponseEntity::ok)
+                .exceptionally(ex -> ResponseEntity.notFound().build());
     }
 
     @PostMapping("/campaigns")
-    public ResponseEntity<Campaign> createCampaign(@RequestBody @Valid Campaign campaign) {
-        Campaign savedCampaign = campaignService.saveCampaign(campaign);
-        return ResponseEntity.ok(savedCampaign);
+    public CompletableFuture<ResponseEntity<Campaign>> createCampaign(@RequestBody @Valid Campaign campaign) {
+        return campaignService.saveCampaign(campaign)
+                .thenApply(ResponseEntity::ok);
     }
 
     @PutMapping("/campaigns")
-    public ResponseEntity<Campaign> updateCampaign(@RequestBody @Valid Campaign campaign) {
-        try{
-            Campaign updatedCampaign = campaignService.updateCampaign(campaign);
-            return ResponseEntity.ok(updatedCampaign);
-        } catch (RuntimeException e){
-            return ResponseEntity.notFound().build();
-        }
+    public CompletableFuture<ResponseEntity<Campaign>> updateCampaign(@RequestBody @Valid Campaign campaign) {
+        return campaignService.updateCampaign(campaign)
+                .thenApply(ResponseEntity::ok)
+                .exceptionally(ex -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/campaigns/{id}")

@@ -24,7 +24,7 @@ public class Campaign {
     @NotBlank(message = "Campaign name cannot be empty")
     private String campaignName; // Campaign name (mandatory)
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @NotEmpty(message = "At least one keyword is required")
     private List<String> keywords = new ArrayList<>(); // Keywords (mandatory, pre-populated with typeahead)
 
