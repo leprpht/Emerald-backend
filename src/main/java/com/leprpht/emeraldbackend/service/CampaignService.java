@@ -20,7 +20,9 @@ public class CampaignService {
     }
 
     public Campaign getCampaignById(Long id){
-        return campaignRepository.findById(id).orElse(null);
+        Campaign campaign = campaignRepository.findById(id).orElse(null);
+        if (campaign == null) throw new RuntimeException("Campaign not found");
+        return campaign;
     }
 
     public Campaign saveCampaign(Campaign campaign){
@@ -28,7 +30,9 @@ public class CampaignService {
     }
 
     public void deleteCampaign(Long id){
-        campaignRepository.deleteById(id);
+        Campaign campaign = campaignRepository.findById(id).orElse(null);
+        if (campaign == null) throw new RuntimeException("Campaign not found");
+        campaignRepository.delete(campaign);
     }
 
     public Campaign updateCampaign(Campaign campaign){
