@@ -38,9 +38,12 @@ public class CampaignController {
                 .thenApply(ResponseEntity::ok);
     }
 
-    @PutMapping("/campaigns")
-    public CompletableFuture<ResponseEntity<Campaign>> updateCampaign(@RequestBody @Valid Campaign campaign) {
-        return campaignService.updateCampaign(campaign)
+    @PutMapping("/campaigns/{id}")
+    public CompletableFuture<ResponseEntity<Campaign>> updateCampaign(
+            @PathVariable Long id,
+            @RequestBody @Valid Campaign campaign
+    ) {
+        return campaignService.updateCampaign(id, campaign)
                 .thenApply(ResponseEntity::ok)
                 .exceptionally(ex -> ResponseEntity.notFound().build());
     }

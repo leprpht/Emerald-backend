@@ -42,8 +42,8 @@ public class CampaignService {
     }
 
     @Async
-    public CompletableFuture<Campaign> updateCampaign(Campaign campaign){
-        Campaign campaignToUpdate = campaignRepository.findById(campaign.getId()).orElse(null);
+    public CompletableFuture<Campaign> updateCampaign(Long id, Campaign campaign){
+        Campaign campaignToUpdate = campaignRepository.findById(id).orElse(null);
         if (campaignToUpdate == null) throw new RuntimeException("Campaign not found");
         Campaign updatedCampaign = setNewValues(campaignToUpdate, campaign);
         return CompletableFuture.completedFuture(campaignRepository.save(updatedCampaign));
