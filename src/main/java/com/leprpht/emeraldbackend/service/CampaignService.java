@@ -12,9 +12,11 @@ import java.util.concurrent.CompletableFuture;
 public class CampaignService {
 
     private final CampaignRepository campaignRepository;
+    private final AccountService accountService;
 
-    public CampaignService(CampaignRepository campaignRepository) {
+    public CampaignService(CampaignRepository campaignRepository, AccountService accountService) {
         this.campaignRepository = campaignRepository;
+        this.accountService = accountService;
     }
 
     @Async
@@ -31,6 +33,7 @@ public class CampaignService {
 
     @Async
     public CompletableFuture<Campaign> saveCampaign(Campaign campaign){
+        accountService.changeBalance(-campaign.getCampaignFund());
         return CompletableFuture.completedFuture(campaignRepository.save(campaign));
     }
 
@@ -45,6 +48,7 @@ public class CampaignService {
     public CompletableFuture<Campaign> updateCampaign(Long id, Campaign campaign){
         Campaign campaignToUpdate = campaignRepository.findById(id).orElse(null);
         if (campaignToUpdate == null) throw new RuntimeException("Campaign not found");
+        accountService.changeBalance(-campaignToUpdate.getCampaignFund() + campaign.getCampaignFund());
         Campaign updatedCampaign = setNewValues(campaignToUpdate, campaign);
         return CompletableFuture.completedFuture(campaignRepository.save(updatedCampaign));
     }
