@@ -2,11 +2,7 @@
 nixPkgs = ["jdk17"]
 
 [phases.build]
-cmds = [
-    "export JAVA_HOME=$(nix eval --raw nixpkgs.jdk17)/lib/openjdk",
-    "export PATH=$JAVA_HOME/bin:$PATH",
-    "./gradlew clean build -x check -x test -Pproduction"
-]
+cmds = ["./gradlew clean build -Pproduction"]
 
 [start]
 cmd = "java -jar build/libs/*.jar"
