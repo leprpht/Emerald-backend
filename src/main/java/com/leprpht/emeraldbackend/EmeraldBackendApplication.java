@@ -1,16 +1,16 @@
 package com.leprpht.emeraldbackend;
 
-import com.leprpht.emeraldbackend.model.Account;
-import com.leprpht.emeraldbackend.model.Campaign;
-import com.leprpht.emeraldbackend.repository.AccountRepository;
-import com.leprpht.emeraldbackend.repository.CampaignRepository;
+import java.util.List;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.math.BigDecimal;
-import java.util.List;
+import com.leprpht.emeraldbackend.model.Account;
+import com.leprpht.emeraldbackend.model.Campaign;
+import com.leprpht.emeraldbackend.repository.AccountRepository;
+import com.leprpht.emeraldbackend.repository.CampaignRepository;
 
 @SpringBootApplication
 public class EmeraldBackendApplication {
